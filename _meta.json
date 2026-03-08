@@ -1,0 +1,10 @@
+{
+  "schema": "openclaw.skill.v1",
+  "name": "composio-composer-xskill",
+  "version": "1.0.0",
+  "displayName": "composio-composer-xskill",
+  "description": "OpenClaw skill: composio-composer-xskill",
+  "author": "RuneweaverStudios",
+  "tags": [],
+  "platform": "openclaw"
+}
