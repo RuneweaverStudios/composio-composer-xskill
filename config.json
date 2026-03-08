@@ -1,0 +1,8 @@
+{
+  "api_base": "https://backend.composio.dev/api/v1",
+  "twitter_api_base": "https://api.twitter.com/2",
+  "timeout": 30,
+  "max_retries": 3,
+  "retry_delay": 1.0,
+  "min_request_interval": 1.0
+}

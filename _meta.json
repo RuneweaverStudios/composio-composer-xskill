@@ -12,7 +12,11 @@
     "composio",
     "posting",
     "api-integration",
-    "openclaw"
+    "openclaw",
+    "automation",
+    "content-creation",
+    "tweets",
+    "x-platform"
   ],
   "platform": "openclaw",
   "requires": {
