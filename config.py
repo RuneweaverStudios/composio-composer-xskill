@@ -56,9 +56,9 @@ class ComposioConfig:
         return cls(**data)
     
     def to_dict(self) -> Dict:
-        """Convert configuration to dictionary (without secrets)."""
+        """Convert configuration to dictionary (without secrets).
+        Note: client_id is excluded as it can be a sensitive credential."""
         return {
-            "client_id": self.client_id,
             "api_base": self.api_base,
             "twitter_api_base": self.twitter_api_base,
             "timeout": self.timeout,
