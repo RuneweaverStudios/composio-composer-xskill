@@ -47,12 +47,46 @@ class ComposioConfig:
             min_request_interval=float(os.getenv("COMPOSIO_RATE_LIMIT", "1.0")),
         )
     
+    # Fields allowed in config files (validated on load)
+    _ALLOWED_FIELDS = {
+        "client_id", "api_key", "session_token", "bearer_token", "user_id",
+        "api_base", "twitter_api_base", "timeout", "max_retries",
+        "retry_delay", "min_request_interval",
+    }
+
+    # Expected types for each field
+    _FIELD_TYPES = {
+        "client_id": str, "api_key": str, "session_token": str,
+        "bearer_token": str, "user_id": str, "api_base": str,
+        "twitter_api_base": str, "timeout": int, "max_retries": int,
+        "retry_delay": (int, float), "min_request_interval": (int, float),
+    }
+
     @classmethod
     def from_file(cls, filepath: str) -> "ComposioConfig":
-        """Load configuration from a JSON file."""
+        """Load configuration from a JSON file with schema validation."""
         import json
         with open(filepath, "r") as f:
             data = json.load(f)
+
+        if not isinstance(data, dict):
+            raise ValueError(f"Config file must contain a JSON object, got {type(data).__name__}")
+
+        # Validate: no unknown fields
+        unknown = set(data.keys()) - cls._ALLOWED_FIELDS
+        if unknown:
+            raise ValueError(f"Unknown config fields: {', '.join(sorted(unknown))}. "
+                             f"Allowed: {', '.join(sorted(cls._ALLOWED_FIELDS))}")
+
+        # Validate: correct types
+        for key, value in data.items():
+            expected = cls._FIELD_TYPES.get(key)
+            if expected and not isinstance(value, expected):
+                raise ValueError(
+                    f"Config field '{key}' must be {expected.__name__ if isinstance(expected, type) else ' or '.join(t.__name__ for t in expected)}, "
+                    f"got {type(value).__name__}"
+                )
+
         return cls(**data)
     
     def to_dict(self) -> Dict:
