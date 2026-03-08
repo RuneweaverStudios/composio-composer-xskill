@@ -5,6 +5,13 @@
   "displayName": "composio-composer-xskill",
   "description": "OpenClaw skill: composio-composer-xskill",
   "author": "RuneweaverStudios",
-  "tags": [],
+  "tags": [
+    "twitter",
+    "social-media",
+    "api",
+    "posting",
+    "python",
+    "rate-limiting"
+  ],
   "platform": "openclaw"
 }
