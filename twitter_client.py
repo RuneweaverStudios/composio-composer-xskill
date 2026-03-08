@@ -121,44 +121,6 @@ class TwitterClient:
         except requests.exceptions.RequestException as e:
             raise TwitterClientError(f"Request failed: {str(e)}")
             
-    def _parse_html_response(self, html: str) -> Dict[str, Any]:
-        """
-        Parse HTML response using BeautifulSoup.
-        
-        Args:
-            html: HTML content to parse
-        
-        Returns:
-            Parsed data dictionary
-        """
-        soup = BeautifulSoup(html, "html.parser")
-        
-        # Try to find JSON data in script tags
-        for script in soup.find_all("script"):
-            if script.string and "window.__INITIAL_STATE__" in script.string:
-                # Extract JSON from JavaScript
-                match = re.search(
-                    r'window\.__INITIAL_STATE__\s*=\s*({.*?});',
-                    script.string,
-                    re.DOTALL
-                )
-                if match:
-                    try:
-                        return json.loads(match.group(1))
-                    except json.JSONDecodeError:
-                        pass
-        
-        # Try to find error messages
-        error_div = soup.find("div", class_=re.compile(r"error|Error"))
-        if error_div:
-            return {"error": error_div.get_text(strip=True)}
-            
-        # Return parsed HTML elements
-        return {
-            "html": str(soup),
-            "title": soup.title.string if soup.title else None,
-        }
-        
     def post_tweet(self, content: str) -> Dict[str, Any]:
         """
         Post a tweet to Twitter/X.
@@ -220,12 +182,14 @@ class TwitterClient:
         
     def _post_tweet_web(self, content: str) -> Dict[str, Any]:
         """
-        Post tweet through Composio web interface (fallback method).
+        Post tweet through Composio web interface (EXPERIMENTAL fallback).
         Uses BeautifulSoup to interact with the web interface.
-        
+        This method is fragile and depends on Composio's web UI structure.
+        It may break if Composio changes their frontend.
+
         Args:
             content: Tweet content
-        
+
         Returns:
             Dictionary with success status and tweet info
         """

@@ -1,17 +1,24 @@
 {
   "schema": "openclaw.skill.v1",
   "name": "composio-composer-xskill",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "Composio Composer for X",
-  "description": "Post, retrieve, and delete tweets on Twitter/X through Composio's integration platform. Uses HTTP requests with BeautifulSoup to interact with the Composio API and web interface.",
+  "description": "Post, retrieve, and delete tweets on Twitter/X through Composio's integration platform. Uses Composio REST API with direct Twitter API v2 fallback.",
   "author": "RuneweaverStudios",
+  "main": "__init__.py",
   "tags": [
     "twitter",
     "social-media",
-    "api",
+    "composio",
     "posting",
-    "python",
-    "rate-limiting"
+    "api-integration",
+    "openclaw"
   ],
-  "platform": "openclaw"
+  "platform": "openclaw",
+  "requires": {
+    "env": [
+      "COMPOSIO_BEARER_TOKEN",
+      "COMPOSIO_API_KEY"
+    ]
+  }
 }
