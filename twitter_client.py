@@ -182,10 +182,12 @@ class TwitterClient:
         
     def _post_tweet_web(self, content: str) -> Dict[str, Any]:
         """
-        Post tweet through Composio web interface (EXPERIMENTAL fallback).
-        Uses BeautifulSoup to interact with the web interface.
-        This method is fragile and depends on Composio's web UI structure.
-        It may break if Composio changes their frontend.
+        EXPERIMENTAL: Post tweet through Composio web interface as fallback.
+
+        WARNING: This method is fragile and depends on Composio's web UI
+        structure. It scrapes HTML forms using BeautifulSoup and will break
+        if Composio changes their frontend. Use only as a last resort when
+        the REST API is unavailable. Not recommended for production use.
 
         Args:
             content: Tweet content
@@ -193,6 +195,10 @@ class TwitterClient:
         Returns:
             Dictionary with success status and tweet info
         """
+        logger.warning(
+            "EXPERIMENTAL: Falling back to web scraping method. "
+            "This is fragile and may break without notice."
+        )
         try:
             # First, get the web interface to establish session
             response = self._make_request(

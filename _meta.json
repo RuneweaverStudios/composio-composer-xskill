@@ -18,7 +18,10 @@
   "requires": {
     "env": [
       "COMPOSIO_BEARER_TOKEN",
-      "COMPOSIO_API_KEY"
+      "COMPOSIO_API_KEY",
+      "COMPOSIO_CLIENT_ID",
+      "COMPOSIO_SESSION_TOKEN",
+      "COMPOSIO_USER_ID"
     ]
   }
 }
